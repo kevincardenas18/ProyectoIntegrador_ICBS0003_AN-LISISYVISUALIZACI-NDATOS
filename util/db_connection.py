@@ -21,7 +21,6 @@ class DbConnection():
                 db_connection_str = 'mysql+pymysql://'+self.user+':' + \
                     self.password+'@'+self.host+':'+self.port+'/'+self.database
                 self.connection = create_engine(db_connection_str)
-                print('Connection to the database established successfully')
                 return self.connection
             else:
                 return -1 # Tipo de base de datos no compatible
@@ -30,5 +29,4 @@ class DbConnection():
             return -2 # Error al establecer la conexión
 
     def stop(self):
-        print('Connection to the database close')
         self.connection.dispose()

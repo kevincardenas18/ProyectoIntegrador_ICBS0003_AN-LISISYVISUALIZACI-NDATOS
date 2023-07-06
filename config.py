@@ -1,6 +1,12 @@
 import os
 from jproperties import Properties
 
+def get_sql_path(file_name: str) -> str:
+    """
+    Gets the full path of a CSV file.
+    """
+    return os.path.join(SQL_PATH, file_name)
+
 # Lee un archivo de propiedades y devuelve un diccionario con los valores.
 def read_config(file_path: str) -> dict:
     """
@@ -13,7 +19,9 @@ def read_config(file_path: str) -> dict:
     return data_dict
 
 # Lee la configuración de la base de datos de origen desde el archivo "source_db.properties"
+SQL_PATH = os.path.abspath('./sql/source')  # Path to source folder
 source_db_config = read_config('./config/source_db.properties')
+etl_db_config = read_config('./config/etl_db.properties')  # Read ETL DB properties file
 
 # Configuración de la conexión a la base de datos
 class DbConnectionConfig:
@@ -46,4 +54,34 @@ class SourceDbConfig:
         Factura = 'factura'
         Detalle_Factura = 'detalle_Factura'
         Detalle_Factura_Producto = 'detalle_Factura_Producto'
+
+# Database to load data into
+class EtlDbConfig:
+    class Connection(DbConnectionConfig):
+        NAME = etl_db_config['DB_NAME']
+        HOST = etl_db_config['DB_HOST']
+        PORT = etl_db_config['DB_PORT']
+        USER = etl_db_config['DB_USER']
+        PASSWORD = etl_db_config['DB_PASSWORD']
+
+    # Database schemas
+    class Schema:
+        SOR = etl_db_config['DB_SOR_SCHEMA']
+        STG = etl_db_config['DB_STG_SCHEMA']
+
+    # Extraction tables (staging)
+    class ExtractTable:
+        Cliente = 'cliente_ext'
+        
+
+    # Transformation tables (staging)
+    class TransformTable:
+        Cliente = 'cliente_tra'
+
+    # Final tables (SOR)
+    class SorTable:
+        Cliente = 'cliente'
+
+    ETL_PROCESS_TABLE = 'procesos_etl'
+    ETL_PROCESS_COL = 'ETL_PROC_ID'
         

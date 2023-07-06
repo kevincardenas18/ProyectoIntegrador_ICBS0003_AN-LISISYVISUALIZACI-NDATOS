@@ -1,8 +1,8 @@
--- Creación de la Base de datos
+-- Creacion de la Base de datos
 DROP DATABASE IF EXISTS importadora_andina;
 CREATE DATABASE importadora_andina;
 USE importadora_andina;
--- Creación de la tabla "Categoria"
+-- Creacion de la tabla "Categoria"
 CREATE TABLE Categoria (
   id_categoria INT AUTO_INCREMENT PRIMARY KEY,
   nombre_categoria VARCHAR(255),
@@ -14,7 +14,7 @@ CREATE TABLE Proveedor (
   id_proveedor INT AUTO_INCREMENT PRIMARY KEY,
   nombre_proveedor VARCHAR(255),
   pais_proveedor VARCHAR(100),
-  telefono_proveedor VARCHAR(12),
+  telefono_proveedor VARCHAR(20),
   email_contacto VARCHAR(255)
 );
 
@@ -112,9 +112,9 @@ CREATE TABLE Factura (
 CREATE TABLE Detalle_Factura (
   id_detalle_factura INT AUTO_INCREMENT PRIMARY KEY,
   id_factura INT,
-  cantidad INT,
-  precio DECIMAL(10, 2),
-  codigo_barras_producto CHAR(5),
+  -- cantidad INT,
+  -- precio DECIMAL(10, 2),
+  -- codigo_barras_producto CHAR(5),
   FOREIGN KEY (id_factura) REFERENCES Factura(id_factura)
 );
 
@@ -123,6 +123,7 @@ CREATE TABLE Detalle_Factura_Producto (
   id_detalle_factura_producto INT AUTO_INCREMENT PRIMARY KEY,
   id_detalle_factura INT,
   id_producto INT,
+  cantidad INT,
   FOREIGN KEY (id_detalle_factura) REFERENCES Detalle_Factura(id_detalle_factura),
   FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
 );
