@@ -208,7 +208,7 @@ mydb.commit()
 
 # Tabla "Factura"
 pagos = ["Efectivo", "Tarjeta"]
-for _ in range(200):
+for _ in range(1000):
     id_cliente = fake.random_int(min=1, max=50)
     id_vendedor = fake.random_int(min=1, max=10)
     fecha = fake.date_between(start_date='-4y', end_date='today')
@@ -223,10 +223,11 @@ for _ in range(200):
     mycursor.execute(sql, val)
 
 mydb.commit()
-
+i=0
 # Tabla "Detalle_Factura"
-for _ in range(200):
-    id_factura = fake.unique.random_int(min=1, max=200)
+for _ in range(1000):
+    i = i+1
+    id_factura = i
 
     sql = "INSERT INTO Detalle_Factura (id_factura) VALUES (%s)"
     val = (id_factura,)
@@ -235,8 +236,8 @@ for _ in range(200):
 mydb.commit()
 
 # Tabla intermedia "Detalle_Factura_Producto"
-for _ in range(800):
-    id_detalle_factura = fake.random_int(min=1, max=200)
+for _ in range(80000):
+    id_detalle_factura = fake.random_int(min=1, max=1000)
     id_producto = fake.random_int(min=1, max=300)
     cantidad = fake.random_int(min=1, max=10)
     sql = "INSERT INTO Detalle_Factura_Producto (id_detalle_factura, id_producto, cantidad) VALUES (%s, %s, %s)"
